@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: pay-pilot-kyc
+server:
+  port: 8081
