@@ -1,0 +1,3 @@
+http://localhost:8081/kyc/update?merchantId=789&status=VERIFIED
+http://localhost:8081/kyc/history/789
+http://localhost:8081/kyc/history
