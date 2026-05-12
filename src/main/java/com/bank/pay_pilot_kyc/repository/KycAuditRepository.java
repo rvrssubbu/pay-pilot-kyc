@@ -1,29 +1,16 @@
 package com.bank.pay_pilot_kyc.repository;
 
-import com.bank.pay_pilot_kyc.domain.KycAudit;
+import com.bank.pay_pilot_kyc.entity.KycAudit;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+
+
 
 @Repository
-public class KycAuditRepository {
+public interface KycAuditRepository
+        extends JpaRepository<KycAudit, Long> {
 
-    private final List<KycAudit> audits = new CopyOnWriteArrayList<>();
-
-    public void save(KycAudit kycAudit){
-        System.out.println("Saving audit: " + kycAudit);
-        audits.add(kycAudit);
-    }
-
-    public List<KycAudit> findByMerchantId(String merchantId){
-        return audits.stream()
-                .filter(a->a.merchantId().equals(merchantId))
-                .toList();
-    }
-
-    public List<KycAudit> findAllMerchants(){
-        return audits.stream()
-                .toList();
-    }
+    List<KycAudit> findByMerchantId(String merchantId);
 }

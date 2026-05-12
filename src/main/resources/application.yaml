@@ -1,5 +1,15 @@
 spring:
   application:
     name: pay-pilot-kyc
+  datasource:
+    url: jdbc:postgresql://localhost:5432/paypilot_kyc
+    username: postgres
+    password: Subbu@141
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  flyway:
+      enabled: true
 server:
   port: 8081

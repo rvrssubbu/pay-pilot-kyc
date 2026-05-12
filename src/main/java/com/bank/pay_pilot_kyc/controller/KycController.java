@@ -1,8 +1,8 @@
 package com.bank.pay_pilot_kyc.controller;
 
-import com.bank.pay_pilot_kyc.domain.KycAudit;
-import com.bank.pay_pilot_kyc.domain.KycDetails;
 import com.bank.pay_pilot_kyc.domain.KycStatus;
+import com.bank.pay_pilot_kyc.entity.KycAudit;
+import com.bank.pay_pilot_kyc.entity.KycDetails;
 import com.bank.pay_pilot_kyc.service.KycService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

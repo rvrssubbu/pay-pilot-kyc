@@ -1,12 +1,12 @@
 package com.bank.pay_pilot_kyc.aspect;
 
-import com.bank.pay_pilot_kyc.annotation.AuditKyc;
-import com.bank.pay_pilot_kyc.domain.KycAudit;
-import com.bank.pay_pilot_kyc.domain.KycDetails;
 import com.bank.pay_pilot_kyc.domain.KycStatus;
+import com.bank.pay_pilot_kyc.entity.KycAudit;
+import com.bank.pay_pilot_kyc.entity.KycDetails;
 import com.bank.pay_pilot_kyc.repository.KycAuditRepository;
 import com.bank.pay_pilot_kyc.repository.KycRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,45 +14,63 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Aspect
 @Component
 @RequiredArgsConstructor
 public class KycAuditAspect {
 
     private final KycRepository kycRepository;
+
     private final KycAuditRepository kycAuditRepository;
 
-    //@Around("@annotation(AuditKyc)")
-    //@AuditKyc
-    //com.bank.pay_pilot_kyc.annotation.
-    //@Around("@annotation(AuditKyc)")
     @Around("@annotation(com.bank.pay_pilot_kyc.annotation.AuditKyc)")
-    public Object audit(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object audit(
+            ProceedingJoinPoint joinPoint
+    ) throws Throwable {
 
-     Object[] args = joinPoint.getArgs();
-     String merchantId = (String) args[0];
-     KycStatus newStatus = (KycStatus) args[1];
+        log.info("🔥 AOP Audit Triggered");
 
-     System.out.println("🔥 AOP CALLED");
+        Object[] args = joinPoint.getArgs();
 
-     KycStatus oldStatus = kycRepository.findByMerchantId(merchantId)
-             .map(KycDetails::status)
-             .orElse(KycStatus.PENDING);
+        String merchantId = (String) args[0];
 
-     Object result = joinPoint.proceed();
+        KycStatus newStatus = (KycStatus) args[1];
 
-        KycAudit audit = new KycAudit(
+        KycStatus oldStatus =
+                kycRepository.findById(merchantId)
+                        .map(KycDetails::getStatus)
+                        .orElse(KycStatus.PENDING);
+
+        log.info(
+                "KYC status transition for merchantId={} from {} to {}",
                 merchantId,
                 oldStatus,
-                newStatus,
-                "SYSTEM",
-                LocalDateTime.now()
-                );
-        System.out.println("Before Save");
+                newStatus
+        );
+
+        Object result = joinPoint.proceed();
+
+        KycAudit audit = KycAudit.builder()
+                .merchantId(merchantId)
+                .oldStatus(oldStatus)
+                .newStatus(newStatus)
+                .updatedBy("SYSTEM")
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        log.info(
+                "Saving audit record for merchantId={}",
+                merchantId
+        );
+
         kycAuditRepository.save(audit);
-        System.out.println("After Save");
+
+        log.info(
+                "Audit saved successfully for merchantId={}",
+                merchantId
+        );
 
         return result;
     }
-
 }
