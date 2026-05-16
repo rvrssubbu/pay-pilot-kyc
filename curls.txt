@@ -1,4 +1,10 @@
 http://localhost:8081/kyc/update?merchantId=789&status=VERIFIED
 http://localhost:8081/kyc/history/789
 http://localhost:8081/kyc/history
- http://localhost:8081/outbox
+http://localhost:8081/outbox
+http://localhost:8081/swagger-ui/index.html
+http://localhost:8081/v3/api-docs
+
+http://localhost:8081/paypilot/kyc/update
+http://localhost:8081/paypilot/outbox
+http://localhost:8081/paypilot/swagger-ui.html
