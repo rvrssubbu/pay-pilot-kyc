@@ -1,6 +1,6 @@
 package com.bank.pay_pilot_kyc.entity;
 
-import com.bank.pay_pilot_kyc.enums.OutboxStatus;
+import com.bank.pay_pilot_kyc.domain.OutboxStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

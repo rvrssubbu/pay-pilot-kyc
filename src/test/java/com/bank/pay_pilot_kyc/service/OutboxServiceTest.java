@@ -1,7 +1,7 @@
 package com.bank.pay_pilot_kyc.service;
 
 import com.bank.pay_pilot_kyc.entity.OutboxEvent;
-import com.bank.pay_pilot_kyc.enums.OutboxStatus;
+import com.bank.pay_pilot_kyc.domain.OutboxStatus;
 import com.bank.pay_pilot_kyc.repository.OutboxRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,7 +77,7 @@ class OutboxServiceTest {
 
         doNothing()
                 .when(service)
-                .simulatePublish(any());
+                .publishToKafka(any());
 
         service.processEvent(event);
 
@@ -95,7 +95,7 @@ class OutboxServiceTest {
 
         doThrow(new RuntimeException("Kafka failure"))
                 .when(service)
-                .simulatePublish(any());
+                .publishToKafka(any());
 
         service.processEvent(event);
 
@@ -127,7 +127,7 @@ class OutboxServiceTest {
 
         doThrow(new RuntimeException("Kafka failure"))
                 .when(service)
-                .simulatePublish(any());
+                .publishToKafka(any());
 
         service.processEvent(failedEvent);
 
@@ -137,7 +137,7 @@ class OutboxServiceTest {
         );
 
         assertEquals(
-                OutboxStatus.FAILED,
+                OutboxStatus.DLQ,
                 failedEvent.getStatus()
         );
 
@@ -159,7 +159,7 @@ class OutboxServiceTest {
 
         try {
 
-            service.simulatePublish(event);
+            service.publishToKafka(event);
 
         } catch (Exception ignored) {
 

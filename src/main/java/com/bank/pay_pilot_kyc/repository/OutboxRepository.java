@@ -1,7 +1,7 @@
 package com.bank.pay_pilot_kyc.repository;
 
 import com.bank.pay_pilot_kyc.entity.OutboxEvent;
-import com.bank.pay_pilot_kyc.enums.OutboxStatus;
+import com.bank.pay_pilot_kyc.domain.OutboxStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +14,7 @@ public interface OutboxRepository
     List<OutboxEvent> findByStatus(
             OutboxStatus status
     );
+
+    boolean existsByEventId(String eventId);
+
 }

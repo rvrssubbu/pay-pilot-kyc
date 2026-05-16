@@ -1,7 +1,7 @@
 package com.bank.pay_pilot_kyc.scheduler;
 
 import com.bank.pay_pilot_kyc.entity.OutboxEvent;
-import com.bank.pay_pilot_kyc.enums.OutboxStatus;
+import com.bank.pay_pilot_kyc.domain.OutboxStatus;
 import com.bank.pay_pilot_kyc.service.OutboxService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

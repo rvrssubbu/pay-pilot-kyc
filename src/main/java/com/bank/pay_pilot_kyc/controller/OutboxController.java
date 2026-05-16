@@ -1,5 +1,6 @@
 package com.bank.pay_pilot_kyc.controller;
 
+import com.bank.pay_pilot_kyc.domain.OutboxStatus;
 import com.bank.pay_pilot_kyc.entity.OutboxEvent;
 import com.bank.pay_pilot_kyc.repository.OutboxRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,5 +25,16 @@ public class OutboxController {
     @GetMapping
     public ResponseEntity<List<OutboxEvent>> getAllEvents() {
         return ResponseEntity.ok(repository.findAll());
+    }
+
+    @GetMapping("/dlq")
+    public ResponseEntity<List<OutboxEvent>>
+    getDlqEvents() {
+
+        return ResponseEntity.ok(
+                repository.findByStatus(
+                        OutboxStatus.DLQ
+                )
+        );
     }
 }
