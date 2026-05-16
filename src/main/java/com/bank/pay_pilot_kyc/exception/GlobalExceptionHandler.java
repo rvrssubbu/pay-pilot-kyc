@@ -9,15 +9,31 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Map<String, String>> handleIllegalState(IllegalStateException ex) {
+    @ExceptionHandler(
+            InvalidKycTransitionException.class
+    )
+    public ResponseEntity<Map<String, String>>
+    handleInvalidKycTransition(
+            InvalidKycTransitionException ex
+    ) {
+
         return ResponseEntity.badRequest()
-                .body(Map.of("error", ex.getMessage()));
+                .body(Map.of(
+                        "error",
+                        ex.getMessage()
+                ));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> handleIllegalArg(IllegalArgumentException ex) {
+    public ResponseEntity<Map<String, String>>
+    handleIllegalArg(
+            IllegalArgumentException ex
+    ) {
+
         return ResponseEntity.badRequest()
-                .body(Map.of("error", ex.getMessage()));
+                .body(Map.of(
+                        "error",
+                        ex.getMessage()
+                ));
     }
 }

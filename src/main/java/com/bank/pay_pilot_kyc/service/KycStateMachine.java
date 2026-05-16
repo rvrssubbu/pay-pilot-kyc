@@ -1,6 +1,7 @@
 package com.bank.pay_pilot_kyc.service;
 
 import com.bank.pay_pilot_kyc.domain.KycStatus;
+import com.bank.pay_pilot_kyc.exception.InvalidKycTransitionException;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -16,7 +17,7 @@ public class KycStateMachine {
 
     public void validate(KycStatus current, KycStatus next){
         if(!transitions.getOrDefault(current, Set.of()).contains(next)){
-            throw new IllegalStateException("Invalid transition from "+current+" to "+next);
+            throw new InvalidKycTransitionException("Invalid transition from "+current+" to "+next);
         }
     }
 }

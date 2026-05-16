@@ -19,11 +19,6 @@ public class OutboxScheduler {
     @Scheduled(fixedDelay = 5000)
     public void processPendingEvents() {
 
-       /* log.info("Scheduler started processing pending events");
-
-        outboxService.getPendingEvents()
-                .forEach(outboxService::processEvent);*/
-
         List<OutboxEvent> events = outboxService.getPendingEvents();
 
         if(events.isEmpty()) {

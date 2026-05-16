@@ -92,7 +92,7 @@ public class OutboxService {
         }
     }
 
-    private void simulatePublish(
+    public void simulatePublish(
             OutboxEvent event
     ) {
 
